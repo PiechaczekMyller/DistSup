@@ -1,0 +1,41 @@
+Datasets:
+  train:
+    class_name: FixedDatasetLoader
+    batch_size: 1
+    dataset:
+      class_name: egs.unet.data.dataset.VolumesDataset
+      dataset_json: "/data/Task01_BrainTumour_hist_matched/dataset.json"
+      division_json: "/data/Task01_BrainTumour_hist_matched/division.json"
+      mode: "train"
+      input_size: 96
+    shuffle: True
+    num_workers: 8
+  test:
+    class_name: FixedDatasetLoader
+    batch_size: 1
+    dataset:
+      class_name: egs.unet.data.dataset.VolumesDataset
+      dataset_json: "/data/Task01_BrainTumour_hist_matched/dataset.json"
+      division_json: "/data/Task01_BrainTumour_hist_matched/division.json"
+      mode: "valid"
+      input_size: 96
+    shuffle: False
+    num_workers: 8
+
+Model:
+  class_name: distsup.models.unet_feedforward.UNetFeedForwardLearner
+  unet:
+    class_name: distsup.models.unet_feedforward.UNet3D
+    in_channels: 4
+    out_channels: 4
+    init_features: 32
+
+Trainer:
+  checkpointer:
+    every_n_hours: 4
+  learning_rate: 0.0005
+c  output_frequency: 1
+  num_epochs: 500
+  optimizer_name: Adam
+  polyak_decay:
+  - 0.998

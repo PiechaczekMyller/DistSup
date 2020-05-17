@@ -13,10 +13,6 @@ RUN conda init bash && \
     echo "export DISTSUP_DIR=/DistSup" >> ~/.bashrc ; \
     echo "export PYTHONPATH=$PYTHONPATH:/DistSup" >> ~/.bashrc
 
-COPY egs egs
-RUN python egs/robustvq/data.py
-
-
 COPY . .
 
 CMD [ "/bin/bash" ]
