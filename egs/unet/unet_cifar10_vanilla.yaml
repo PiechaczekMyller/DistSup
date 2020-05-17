@@ -1,0 +1,36 @@
+Datasets:
+  train:
+    class_name: FixedDatasetLoader
+    batch_size: 128
+    dataset:
+      class_name: egs.robustvq.data.CIFAR10
+      train: True
+    shuffle: True
+    num_workers: 8
+  test:
+    class_name: FixedDatasetLoader
+    batch_size: 128
+    dataset:
+      class_name: egs.robustvq.data.CIFAR10
+      train: False
+    shuffle: False
+    num_workers: 8
+
+Model:
+  class_name: distsup.models.unet_feedforward.UNetFeedForwardLearner
+  unet:
+    class_name: distsup.models.unet_feedforward.UNet
+    in_channels: 3
+    out_channels: 3
+    init_features: 32
+
+Trainer:
+  checkpointer:
+    every_n_hours: 4
+  learning_rate: 0.0005
+  learning_rate_scheduler: null
+  output_frequency: 100
+  num_epochs: 2000
+  optimizer_name: Adam
+  polyak_decay:
+  - 0.998

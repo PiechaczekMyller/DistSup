@@ -6,3 +6,7 @@ class CIFAR10(datasets.CIFAR10):
         tr = transforms.Compose([transforms.ToTensor(), lambda x: x - 0.5])
         super(CIFAR10, self).__init__("data/cifar10", transform=tr,
                                       download=True, **kwargs)
+
+
+if __name__ == '__main__':
+    dataset = CIFAR10()
