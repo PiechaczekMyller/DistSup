@@ -7,7 +7,7 @@ Datasets:
       dataset_json: "/data/Task01_BrainTumour_hist_matched/dataset.json"
       division_json: "/data/Task01_BrainTumour_hist_matched/division.json"
       mode: "train"
-      input_size: 96
+      input_size: 32
     shuffle: True
     num_workers: 8
   test:
@@ -18,7 +18,7 @@ Datasets:
       dataset_json: "/data/Task01_BrainTumour_hist_matched/dataset.json"
       division_json: "/data/Task01_BrainTumour_hist_matched/division.json"
       mode: "valid"
-      input_size: 96
+      input_size: 32
     shuffle: False
     num_workers: 8
 
@@ -34,7 +34,7 @@ Trainer:
   checkpointer:
     every_n_hours: 4
   learning_rate: 0.0005
-c  output_frequency: 1
+  output_frequency: 1
   num_epochs: 500
   optimizer_name: Adam
   polyak_decay:

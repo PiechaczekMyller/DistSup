@@ -1,5 +1,6 @@
 import sys
 from os.path import dirname
+
 sys.path.append(dirname(__file__))
 
 import itertools
@@ -13,6 +14,7 @@ import torch.nn as nn
 from distsup.models.losses import DiceLoss, ComposedLoss, BCEWithLogitsLoss
 from distsup.utils import construct_from_kwargs
 from distsup.models import base
+
 
 class UNet3DBlock(nn.Module):
     def __init__(self, in_channels, mid_channels, out_channels):
@@ -94,7 +96,7 @@ class UNet3D(nn.Module):
         dec1 = self.decoder1(dec1)
 
         maps = self.mapper(dec1)
-        return maps
+        return maps, bottleneck
 
 
 class UNetFeedForwardLearner(base.Model):
@@ -114,6 +116,7 @@ class UNetFeedForwardLearner(base.Model):
         self.bce_loss = BCEWithLogitsLoss(inputs_preprocess_fn=remove_background_label)
 
         self.compound_loss = ComposedLoss([self.dice_loss, self.bce_loss])
+
     @staticmethod
     def dice_preprocess(prediction: torch.Tensor, target: torch.Tensor):
         prediction = torch.sigmoid(prediction)
@@ -129,7 +132,7 @@ class UNetFeedForwardLearner(base.Model):
         else:
             assert N == self.N
 
-        x = self.unet(images)
+        x, bottleneck = self.unet(images)
 
         loss = self.compound_loss(x, targets)
         stats = {'loss': loss}
